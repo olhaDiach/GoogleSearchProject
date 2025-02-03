@@ -44,12 +44,14 @@ jobs:
       run: |
         chromedriver --version
 
-    - name: Install .NET 8.0 (or your target version)
+    - name: Install .NET 8.0
       run: |
-        wget https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-8.0.0-linux-x64-binaries
-        sudo dpkg -i dotnet-sdk-8.0.0-linux-x64.deb
-        # Add .NET to the PATH
+        wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
+        chmod +x dotnet-install.sh
+        ./dotnet-install.sh --channel 8.0 --install-dir $HOME/.dotnet
         echo "$HOME/.dotnet" >> $GITHUB_PATH
+        echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+        echo "DOTNET_ROOT=$HOME/.dotnet" >> $GITHUB_ENV
 
     - name: Verify .NET installation
       run: |
