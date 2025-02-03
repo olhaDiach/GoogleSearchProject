@@ -1,0 +1,36 @@
+name: Run Tests 
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch: 
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out the repository
+      uses: actions/checkout@v2
+
+   
+    - name: Install .NET 8.0
+      run: |
+        wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
+        chmod +x dotnet-install.sh
+        ./dotnet-install.sh --channel 8.0 --install-dir $HOME/.dotnet
+        echo "$HOME/.dotnet" >> $GITHUB_PATH
+        echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+        echo "DOTNET_ROOT=$HOME/.dotnet" >> $GITHUB_ENV
+    - name: Verify .NET installation
+      run: |
+        dotnet --version
+        dotnet --list-runtimes
+    - name: Restore and Build Project
+      run: |
+        dotnet restore
+        dotnet build
+    - name: Run Tests
+      run: |
+        dotnet test "GoogleSearchProject/GoogleSearchProject.csproj"
