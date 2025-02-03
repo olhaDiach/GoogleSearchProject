@@ -2,9 +2,10 @@
 
 namespace GoogleSearchProject.Tests
 {
-    internal class SearchSeleniumTutorialTest : BaseTest
+    public class SearchSeleniumTutorialTest : BaseTest
     {
         [Test]
+        //Test
         public void GoogleSearch_Should_ShowResults()
         {
             Driver.Navigate().GoToUrl("https://www.google.com");
