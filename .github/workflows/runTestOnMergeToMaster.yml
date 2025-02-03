@@ -1,4 +1,4 @@
-name: Run Tests On merge To Master
+name: Run Tests On Merge to Master
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 jobs:
   install:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Check out the repository
       uses: actions/checkout@v2
@@ -44,26 +44,23 @@ jobs:
       run: |
         chromedriver --version
 
-    - name: Check out the repository
-      uses: actions/checkout@v2
-    
-    - name: Install .NET 7.0 and 9.0
+    - name: Install .NET 8.0 (or your target version)
       run: |
-          wget https://aka.ms/install-dotnet-preview -O dotnet-install-9.sh
-          sudo bash dotnet-install-9.sh --channel 9.0
-
-          # Add .NET to the PATH
-          echo "$HOME/.dotnet" >> $GITHUB_PATH
+        wget https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-8.0.0-linux-x64-binaries
+        sudo dpkg -i dotnet-sdk-8.0.0-linux-x64.deb
+        # Add .NET to the PATH
+        echo "$HOME/.dotnet" >> $GITHUB_PATH
 
     - name: Verify .NET installation
       run: |
-          dotnet --version
-          dotnet --list-runtimes
+        dotnet --version
+        dotnet --list-runtimes
 
-    - name: Restore and build project
+    - name: Restore and Build Project
       run: |
-          dotnet restore
-          dotnet build
+        dotnet restore
+        dotnet build
 
-    - name: Run tests
-      run: dotnet test "GoogleSearchProject/GoogleSearchProject.csproj"
+    - name: Run Tests
+      run: |
+        dotnet test "GoogleSearchProject/GoogleSearchProject.csproj"
