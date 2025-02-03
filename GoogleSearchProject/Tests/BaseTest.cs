@@ -13,7 +13,6 @@ namespace GoogleSearchProject.Tests
         public void Setup()
         {
             var options = new ChromeOptions();
-            options.AddArgument("--disable-gpu");
             Driver = new ChromeDriver(options);
             Wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
         }
